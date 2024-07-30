@@ -3,6 +3,7 @@ import connectDB from "./config/database.js";
 import { config } from "dotenv";
 import bodyParser from "body-parser";
 import productRoutes from "./routes/productRoutes.js";
+import productCategoryRoutes from "./routes/productCategoryRoutes.js";
 
 const { json, urlencoded } = bodyParser;
 
@@ -18,5 +19,6 @@ connectDB();
 
 // Sử dụng các routes
 app.use("/api/products", productRoutes);
+app.use("/api/products-category", productCategoryRoutes);
 
 export default app;
