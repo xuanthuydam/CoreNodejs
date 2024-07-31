@@ -6,6 +6,7 @@ import productRoutes from "./routes/productRoutes.js";
 import productCategoryRoutes from "./routes/productCategoryRoutes.js";
 import roleRouter from "./routes/user_management/roleRouter.js";
 import userRouter from "./routes/user_management/userRouter.js";
+import authRouter from "./routes/auth/authRouter.js";
 
 const { json, urlencoded } = bodyParser;
 
@@ -25,5 +26,6 @@ app.use("/api/products-category", productCategoryRoutes);
 
 app.use("/api/role", roleRouter);
 app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
 
 export default app;

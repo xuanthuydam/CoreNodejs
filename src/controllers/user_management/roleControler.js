@@ -1,5 +1,19 @@
 import Role from "../../models/user_management/roleModel.js";
 
+const getAllRole = async (req, res) => {
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json({ errors: errors.array() });
+  // }
+
+  try {
+    const role = await Role.find({});
+    res.status(200).json(role);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const createRole = async (req, res) => {
   // const errors = validationResult(req);
   // if (!errors.isEmpty()) {
@@ -14,4 +28,4 @@ const createRole = async (req, res) => {
   }
 };
 
-export { createRole };
+export { createRole, getAllRole };
