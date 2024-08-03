@@ -3,7 +3,10 @@ import {
   createRole,
   getAllRole,
 } from "../../controllers/user_management/roleControler.js";
-import { authenticateJWT, authorizeRole } from "../../middleware/jwt/auth.js";
+import {
+  authenticateJWT,
+  authorizeRole,
+} from "../../middleware/jwt/authMiddleware.js";
 
 const router = Router();
 

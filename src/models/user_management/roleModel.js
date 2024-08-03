@@ -7,6 +7,6 @@ const roleSchema = new Schema(
   { timestamps: true }
 );
 
-const Role = model("Roles", roleSchema);
+const Role = model("Role", roleSchema);
 
 export default Role;
