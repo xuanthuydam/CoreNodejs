@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const userSchema = new Schema(
   {
-    user_name: { type: String, required: true },
+    user_name: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, default: null },
@@ -16,6 +16,10 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userSchema.statics.findByUserName = function (userName) {
+  return this.findOne({ user_name: userName });
+};
 
 const User = model("User", userSchema);
 

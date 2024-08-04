@@ -1,8 +1,22 @@
 import User from "../../models/user_management/userModel.js";
+import bcrypt from "bcryptjs";
 import UserDto from "../../dtos/user_management/userResponse.js";
 
+const saltRounds = 10;
+
 const createUser = async (userData) => {
-  const user = await User.create(userData);
+  const user_name = userData?.user_name;
+
+  const userNameExists = await User.findByUserName(user_name);
+
+  if (userNameExists) {
+    return { message: "Username đã tồn tại" };
+  }
+
+  const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+  const userWithHashedPassword = { ...userData, password: hashedPassword };
+
+  const user = await User.create(userWithHashedPassword);
   return user;
 };
 
