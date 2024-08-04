@@ -1,56 +1,94 @@
 import User from "../../models/user_management/userModel.js";
 import bcrypt from "bcryptjs";
 import UserDto from "../../dtos/user_management/userResponse.js";
+import formatPaginatedResult from "../../common/formatPaginatedResult.js";
+import Role from "../../models/user_management/roleModel.js";
 
 const saltRounds = 10;
 
 const createUser = async (userData) => {
-  const user_name = userData?.user_name;
+  try {
+    const user_name = userData?.user_name;
 
-  const userNameExists = await User.findByUserName(user_name);
+    const userNameExists = await User.findByUserName(user_name);
 
-  if (userNameExists) {
-    return { message: "Username đã tồn tại" };
+    if (userNameExists) {
+      return { message: "Username đã tồn tại" };
+    }
+
+    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+    const userWithHashedPassword = { ...userData, password: hashedPassword };
+
+    const user = await User.create(userWithHashedPassword);
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error creating user");
   }
-
-  const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-  const userWithHashedPassword = { ...userData, password: hashedPassword };
-
-  const user = await User.create(userWithHashedPassword);
-  return user;
 };
 
-const getAllUsers = async () => {
-  const users = await User.find({}).populate("role", "role_name");
-  const result = users.map((user) => new UserDto(user));
-  return result;
+const getAllUsers = async (req) => {
+  try {
+    const { pageSize = 1, pageNumber = 2 } = req.param;
+
+    const options = {
+      page: parseInt(pageSize),
+      limit: parseInt(pageNumber),
+      populate: {
+        path: "role",
+        select: "role_name",
+      },
+    };
+
+    const users = await User.paginate({}, options);
+
+    return formatPaginatedResult(users, UserDto);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching users");
+  }
 };
 
 const getUserById = async (id) => {
-  const user = await User.findById(id).populate("role", "role_name");
-  if (!user) {
-    throw new Error("User not found");
+  try {
+    const user = await User.findById(id).populate("role", "role_name");
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const result = new UserDto(user);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching user by ID");
   }
-  const result = new UserDto(user);
-  return result;
 };
 
 const updateUser = async (id, updateData) => {
-  const updatedUser = await User.findByIdAndUpdate(id, updateData, {
-    new: true,
-  });
-  if (!updatedUser) {
-    throw new Error("User not found");
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+    return updatedUser;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error updating user");
   }
-  return updatedUser;
 };
 
 const deleteUser = async (id) => {
-  const user = await User.findByIdAndDelete(id);
-  if (!user) {
-    throw new Error("User not found");
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return { message: "User deleted successfully" };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error deleting user");
   }
-  return { message: "User deleted successfully" };
 };
 
 export { createUser, getAllUsers, getUserById, updateUser, deleteUser };

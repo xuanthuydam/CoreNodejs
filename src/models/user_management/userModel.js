@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const userSchema = new Schema(
   {
@@ -20,6 +21,8 @@ const userSchema = new Schema(
 userSchema.statics.findByUserName = function (userName) {
   return this.findOne({ user_name: userName });
 };
+
+userSchema.plugin(mongoosePaginate);
 
 const User = model("User", userSchema);
 
