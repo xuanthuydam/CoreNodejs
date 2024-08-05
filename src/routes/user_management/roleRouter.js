@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createRole,
+  deleteRole,
   getAllRole,
 } from "../../controllers/user_management/roleControler.js";
 import {
@@ -17,5 +18,7 @@ router.get(
   authorizeRole(["66aa521341083f5120f79660"]),
   getAllRole
 );
+
+router.delete("/delete-role/:id", deleteRole);
 
 export default router;

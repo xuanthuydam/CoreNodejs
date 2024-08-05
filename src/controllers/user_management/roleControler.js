@@ -14,6 +14,20 @@ const getAllRole = async (req, res) => {
   }
 };
 
+const deleteRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Role.findByIdAndDelete(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return { message: "User deleted successfully" };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error deleting user");
+  }
+};
+
 const createRole = async (req, res) => {
   // const errors = validationResult(req);
   // if (!errors.isEmpty()) {
@@ -28,4 +42,4 @@ const createRole = async (req, res) => {
   }
 };
 
-export { createRole, getAllRole };
+export { createRole, getAllRole, deleteRole };

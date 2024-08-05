@@ -16,6 +16,26 @@ const createUserValidator = [
     .withMessage("User name is required")
     .notEmpty()
     .withMessage("User name is null"),
+  body("role")
+    .exists()
+    .withMessage("Role is required")
+    .notEmpty()
+    .withMessage("Role is null"),
+  body("language")
+    .exists()
+    .withMessage("Language is required")
+    .notEmpty()
+    .withMessage("Language is null"),
+  body("timezone")
+    .exists()
+    .withMessage("Timezone is required")
+    .notEmpty()
+    .withMessage("Timezone is null"),
+  body("theme")
+    .exists()
+    .withMessage("Theme is required")
+    .notEmpty()
+    .withMessage("Theme name is null"),
 ];
 
 const updateUserValidator = [
@@ -34,6 +54,26 @@ const updateUserValidator = [
     .withMessage("User name is required")
     .notEmpty()
     .withMessage("User name is null"),
+  body("role")
+    .exists()
+    .withMessage("Role is required")
+    .notEmpty()
+    .withMessage("Role is null"),
+  body("language")
+    .exists()
+    .withMessage("Language is required")
+    .notEmpty()
+    .withMessage("Language is null"),
+  body("timezone")
+    .exists()
+    .withMessage("Timezone is required")
+    .notEmpty()
+    .withMessage("Timezone is null"),
+  body("theme")
+    .exists()
+    .withMessage("Theme is required")
+    .notEmpty()
+    .withMessage("Theme name is null"),
 ];
 
 const detailUserValidator = [
