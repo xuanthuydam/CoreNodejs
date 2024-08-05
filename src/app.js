@@ -21,7 +21,8 @@ app.use(urlencoded({ extended: true }));
 connectDB();
 
 app.use("/api/role", roleRouter);
-app.use("/api/user", authenticateJWT, handleValidationErrors, userRouter);
+// app.use("/api/user", authenticateJWT, handleValidationErrors, userRouter);
+app.use("/api/user", handleValidationErrors, userRouter);
 app.use("/api/auth", authRouter);
 
 export default app;
