@@ -2,7 +2,6 @@ import User from "../../models/user_management/userModel.js";
 import bcrypt from "bcryptjs";
 import UserDto from "../../dtos/user_management/userResponse.js";
 import formatPaginatedResult from "../../common/formatPaginatedResult.js";
-import Role from "../../models/user_management/roleModel.js";
 
 const saltRounds = 10;
 
@@ -29,11 +28,11 @@ const createUser = async (userData) => {
 
 const getAllUsers = async (req) => {
   try {
-    const { pageSize = 1, pageNumber = 2 } = req.param;
+    const { pageSize, pageNumber } = req.params;
 
     const options = {
-      page: parseInt(pageSize),
-      limit: parseInt(pageNumber),
+      page: pageNumber,
+      limit: pageSize,
       populate: {
         path: "role",
         select: "role_name",
