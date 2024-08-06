@@ -15,7 +15,16 @@ const { json, urlencoded } = bodyParser;
 config(); // Đọc các biến môi trường từ file .env
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    callback(null, origin); // Cho phép mọi nguồn gốc
+  },
+  credentials: true, // Cho phép gửi cookies
+  exposedHeaders: ["Content-Disposition"], // Thêm header Content-Disposition vào danh sách exposed
+};
+
+app.use(cors(corsOptions));
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
