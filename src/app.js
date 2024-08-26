@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import bodyParser from "body-parser";
 import roleRouter from "./routes/user_management/roleRouter.js";
 import userRouter from "./routes/user_management/userRouter.js";
+import customerRouter from "./routes/service_management/customerRouter.js";
 import authRouter from "./routes/auth/authRouter.js";
 import userManagement from "./routes/api_common/listForUserManagementRouter.js";
 import { authenticateJWT } from "./middleware/jwt/authMiddleware.js";
@@ -35,6 +36,13 @@ connectDB();
 app.use("/api/role", roleRouter);
 // app.use("/api/user", authenticateJWT, handleValidationErrors, userRouter);
 app.use("/api/user", authenticateJWT, handleValidationErrors, userRouter);
+app.use(
+  "/api/service-management",
+  authenticateJWT,
+  handleValidationErrors,
+  customerRouter
+);
+
 app.use("/api/user-management", authenticateJWT, userManagement);
 app.use("/api/auth", authRouter);
 
