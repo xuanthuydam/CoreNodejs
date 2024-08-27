@@ -17,7 +17,7 @@ const createCustomer = async (customerData) => {
 
 const getAllCutomers = async (req) => {
   try {
-    const { pageSize, pageNumber } = req.params;
+    const { pageSize, pageNumber } = req.query;
 
     const options = {
       page: pageNumber,

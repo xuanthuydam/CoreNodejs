@@ -28,7 +28,7 @@ const createUser = async (userData) => {
 
 const getAllUsers = async (req) => {
   try {
-    const { pageSize, pageNumber } = req.params;
+    const { pageSize, pageNumber } = req.query;
 
     const options = {
       page: pageNumber,
