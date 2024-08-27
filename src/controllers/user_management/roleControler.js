@@ -1,14 +1,20 @@
 import Role from "../../models/user_management/roleModel.js";
+import * as roleService from "../../services/user_management/roleService.js";
 
 const getAllRole = async (req, res) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).json({ errors: errors.array() });
-  // }
-
   try {
-    const role = await Role.find({});
-    res.status(200).json(role);
+    const roles = await roleService.getAllRoles(req);
+    res.status(200).json(roles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getRoleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const roles = await roleService.getRoleById(id);
+    res.status(200).json(roles);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -17,29 +23,31 @@ const getAllRole = async (req, res) => {
 const deleteRole = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await Role.findByIdAndDelete(id);
-    if (!user) {
-      throw new Error("User not found");
-    }
-    return { message: "User deleted successfully" };
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error deleting user");
-  }
-};
-
-const createRole = async (req, res) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).json({ errors: errors.array() });
-  // }
-
-  try {
-    const product = await Role.create(req.body);
-    res.status(200).json(product);
+    const result = await roleService.deleteRole(id);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-export { createRole, getAllRole, deleteRole };
+const createRole = async (req, res) => {
+  try {
+    const result = await roleService.createRole(req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const updatedRole = await roleService.updateRole(id, updateData);
+    res.status(200).json(updatedRole);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { createRole, updateRole, getAllRole, deleteRole, getRoleById };

@@ -33,7 +33,7 @@ app.use(urlencoded({ extended: true }));
 // Kết nối MongoDB
 connectDB();
 
-app.use("/api/role", roleRouter);
+app.use("/api/role", authenticateJWT, roleRouter);
 // app.use("/api/user", authenticateJWT, handleValidationErrors, userRouter);
 app.use("/api/user", authenticateJWT, handleValidationErrors, userRouter);
 app.use(
